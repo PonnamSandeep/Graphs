@@ -1,35 +1,36 @@
-package graphsexmp;
+package graphsList;
 
 import java.util.ArrayList;
 
 public class Graph {
-	ArrayList<GraphNode> nodeList = new ArrayList<GraphNode>();
-	int[][] adjacentMatrix;
+	
+	ArrayList<GraphNode> nodeList=new ArrayList<GraphNode>();
 	
 	public Graph(ArrayList<GraphNode> nodeList) {
 		this.nodeList=nodeList;
-		adjacentMatrix = new int[nodeList.size()][nodeList.size()];
 	}
 	
-	public void addUndirectedEdge(int i,int j) {
-		adjacentMatrix[i][j] = 1;
-		adjacentMatrix[j][i] = 1;
+	public void addUndirectedEdge(int i, int j) {
+		GraphNode first= nodeList.get(i);
+		GraphNode second= nodeList.get(j);
+		first.neighbours.add(second);
+		second.neighbours.add(first);
 	}
 	
 	public String toString() {
 		StringBuilder s = new StringBuilder();
-		s.append("   ");
-		for(int i=0;i<nodeList.size();i++) {
-			s.append(nodeList.get(i).name+" ");
-		}
-		s.append("\n");
 		for(int i=0;i<nodeList.size();i++) {
 			s.append(nodeList.get(i).name+": ");
-			for(int j:adjacentMatrix[i]) {
-				s.append((j)+" ");
+			for(int j=0;j<nodeList.get(i).neighbours.size();j++) {
+				if(j == nodeList.get(i).neighbours.size()-1) {
+					s.append(nodeList.get(i).neighbours.get(j).name);
+				} else {
+					s.append((nodeList.get(i).neighbours.get(j).name)+" -> ");
+				}
 			}
 			s.append("\n");
 		}
 		return s.toString();
 	}
+
 }
